@@ -6,7 +6,7 @@ module AutomaticRecord
 
     end
 
-    def get_or_auto_create_assoc(assoc, force_reload=false, default_attrs_or_block={})
+    def get_or_auto_create_assoc(assoc, force_reload=false, default_attrs_or_block={}) # :nodoc:
       result = method(assoc).super_method.call(force_reload)
       if result.blank?
         if default_attrs_or_block.is_a?(Proc)
@@ -19,6 +19,26 @@ module AutomaticRecord
     end
 
     module ClassMethods
+
+      # Specifies that the given association should be created automaticaly whenever it is accessed, if
+      # it does not already exist. This method should only be used on associations that are defined as
+      # either :belongs_to or :has_one.
+      #
+      # === Example
+      #
+      #  class User < ActiveRecord::Base
+      #    has_one :preference
+      #    auto_create :preference
+      #  end
+      #
+      # === Options
+      #
+      # Pass a list of default attributes:
+      #  auto_create :preference, :language => 'en', :notifications => true
+      #
+      # Pass a block to be used for object creation:
+      #  auto_create :preference, ->(user){ user.create_preference(:language => 'en', :notifications => true) }
+      #
       def auto_create(assoc, default_attrs_or_block={})        
         reflection = reflect_on_association(assoc)
         if reflection.nil?
