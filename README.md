@@ -27,7 +27,7 @@ This would allow us to do something like the following in our code:
     user = User.create() # preference is currently nil
     pref = user.preference # creates preference object on the fly
 
-### Advanced Usage
+## Advanced Usage
 
 You can provide a hash of default values to the association. These will be passed in to the `create` method when the new object is created.
 
