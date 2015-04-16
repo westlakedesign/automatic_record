@@ -30,6 +30,17 @@ RSpec.describe User, type: :model do
       expect(preference.language).to eq('fr')
       expect(preference.notifications).to eq(true)
     end
+
+    it 'should reload the record from the database' do
+      user = FactoryGirl.create(:user)
+      preference = user.preference
+
+      preference_alt = Preference.find_by(:id => preference.id)
+      preference_alt.update_attribute(:language, 'ca')
+
+      expect(user.preference.language).to_not eq('ca')
+      expect(user.preference(true).language).to eq('ca')
+    end
   end
 
   describe 'errors' do
