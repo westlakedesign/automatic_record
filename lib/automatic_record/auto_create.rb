@@ -22,9 +22,9 @@ module AutomaticRecord
       def auto_create(assoc, default_attrs_or_block={})        
         reflection = reflect_on_association(assoc)
         if reflection.nil?
-          raise AutoCreate::Error::MissingAssociation.new(assoc)
+          raise AutomaticRecord::Error::MissingAssociation.new(assoc)
         elsif !(reflection.has_one? || reflection.belongs_to?)
-          raise AutoCreate::Error::InvalidAssociation.new(assoc)
+          raise AutomaticRecord::Error::InvalidAssociation.new(assoc)
         else
           define_method(assoc) do |force_reload=false|
             return get_or_auto_create_assoc(assoc, force_reload, default_attrs_or_block)
