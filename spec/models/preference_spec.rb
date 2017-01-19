@@ -5,14 +5,14 @@ RSpec.describe Preference, type: :model do
   describe '#belongs_to' do
     it 'should create the user record' do
       preference = FactoryGirl.create(:preference)
-      expect{
+      expect do
         preference.user
-      }.to change(User, :count).by(1)
+      end.to change(User, :count).by(1)
     end
 
     it 'should get the pre-existing record' do
       user = FactoryGirl.create(:user)
-      preference = FactoryGirl.create(:preference, :user_id => user.id)
+      preference = FactoryGirl.create(:preference, user_id: user.id)
       expect(preference.user).to eq(user)
     end
 
@@ -32,7 +32,7 @@ RSpec.describe Preference, type: :model do
       preference = FactoryGirl.create(:preference)
       user = preference.user
 
-      user_alt = User.find_by(:id => user.id)
+      user_alt = User.find_by(id: user.id)
       user_alt.update_attribute(:username, 'reloaded')
 
       expect(preference.user.username).to_not eq('reloaded')

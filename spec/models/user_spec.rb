@@ -5,15 +5,15 @@ RSpec.describe User, type: :model do
   describe '#has_one' do
     it 'should create the preference record' do
       user = FactoryGirl.create(:user)
-      expect(Preference.find_by(:user_id => user.id)).to eq(nil)
-      expect{
+      expect(Preference.find_by(user_id: user.id)).to eq(nil)
+      expect do
         user.preference
-      }.to change(Preference, :count).by(1)
+      end.to change(Preference, :count).by(1)
     end
 
     it 'should get the pre-existing record' do
       user = FactoryGirl.create(:user)
-      preference = FactoryGirl.create(:preference, :user_id => user.id)
+      preference = FactoryGirl.create(:preference, user_id: user.id)
       expect(user.preference).to eq(preference)
     end
 
@@ -35,7 +35,7 @@ RSpec.describe User, type: :model do
       user = FactoryGirl.create(:user)
       preference = user.preference
 
-      preference_alt = Preference.find_by(:id => preference.id)
+      preference_alt = Preference.find_by(id: preference.id)
       preference_alt.update_attribute(:language, 'ca')
 
       expect(user.preference.language).to_not eq('ca')
@@ -45,18 +45,18 @@ RSpec.describe User, type: :model do
 
   describe 'errors' do
     it 'should raise an error if the association does not exist' do
-      expect{
+      expect do
         User.class_eval('auto_create :does_not_exist')
-      }.to raise_error(AutomaticRecord::Error::MissingAssociation)
+      end.to raise_error(AutomaticRecord::Error::MissingAssociation)
     end
 
     it 'should raise an error if the association is not :belongs_to or :has_one' do
-      expect{
+      expect do
         User.class_eval do
           has_many :widgets
           auto_create :widgets
         end
-      }.to raise_error(AutomaticRecord::Error::InvalidAssociation)
+      end.to raise_error(AutomaticRecord::Error::InvalidAssociation)
     end
   end
 
