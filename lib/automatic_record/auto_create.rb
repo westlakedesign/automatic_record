@@ -34,8 +34,8 @@ module AutomaticRecord
         elsif !(reflection.has_one? || reflection.belongs_to?)
           raise AutomaticRecord::Error::InvalidAssociation, assoc
         else
-          define_method(assoc) do |force_reload = false|
-            return get_or_auto_create_assoc(assoc, force_reload, default_attrs_or_block)
+          define_method(assoc) do |_force_reload = nil| # force_reload is deprecated by rails
+            return get_or_auto_create_assoc(assoc, default_attrs_or_block)
           end
         end
       end
@@ -43,8 +43,8 @@ module AutomaticRecord
 
     private
 
-    def get_or_auto_create_assoc(assoc, force_reload = false, default_attrs_or_block = {}) # :nodoc:
-      result = method(assoc).super_method.call(force_reload)
+    def get_or_auto_create_assoc(assoc, default_attrs_or_block = {}) # :nodoc:
+      result = method(assoc).super_method.call
       if result.blank?
         result = if default_attrs_or_block.is_a?(Proc)
                    default_attrs_or_block.call(self)

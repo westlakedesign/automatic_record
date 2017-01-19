@@ -27,17 +27,6 @@ RSpec.describe Preference, type: :model do
       user = preference.user_with_block
       expect(user.username).to eq('blocked')
     end
-
-    it 'should reload the record from the database' do
-      preference = FactoryGirl.create(:preference)
-      user = preference.user
-
-      user_alt = User.find_by(id: user.id)
-      user_alt.update_attribute(:username, 'reloaded')
-
-      expect(preference.user.username).to_not eq('reloaded')
-      expect(preference.user(true).username).to eq('reloaded')
-    end
   end
 
 end
