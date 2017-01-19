@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    automatic_record (0.0.2)
+    automatic_record (0.0.3)
       rails
 
 GEM
