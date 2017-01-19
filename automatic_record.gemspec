@@ -11,11 +11,12 @@ Gem::Specification.new do |s|
   s.email       = ['greg@westlakeinteractive.com']
   s.homepage    = 'https://github.com/westlakedesign/automatic_record'
   s.summary     = 'Automatically create has_one and belongs_to associations the first time they are fetched'
-  s.description = 'Automatically create a has_one or belongs_to association the first time it is accessed. Also supports optional default attributes or block usage to customize the record creation.'
+  s.description = 'Automatically create a has_one or belongs_to association the first time it is accessed.
+    Also supports optional default attributes or block usage to customize the record creation.'
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
-  s.test_files = Dir['spec/**/*'].reject { |f| f.match(/^spec\/dummy\/(log|tmp)/) }
+  s.test_files = Dir['spec/**/*'].reject { |f| f.match(%r{^spec\/dummy\/(log|tmp)}) }
 
   s.add_dependency 'rails'
 

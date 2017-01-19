@@ -101,3 +101,11 @@ Bundler/OrderedGems:
 #
 Style/EmptyMethod:
   Enabled: false
+
+# Don't enforce block length in specs or other files where blocks tend to be long
+#
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'spec/**/*.rb'

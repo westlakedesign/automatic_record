@@ -29,14 +29,10 @@ module AutomaticRecord
       #
       def auto_create(assoc, default_attrs_or_block = {})
         reflection = reflect_on_association(assoc)
-        if reflection.nil?
-          raise AutomaticRecord::Error::MissingAssociation, assoc
-        elsif !(reflection.has_one? || reflection.belongs_to?)
-          raise AutomaticRecord::Error::InvalidAssociation, assoc
-        else
-          define_method(assoc) do |_force_reload = nil| # force_reload is deprecated by rails
-            return get_or_auto_create_assoc(assoc, default_attrs_or_block)
-          end
+        raise AutomaticRecord::Error::MissingAssociation, assoc if reflection.nil?
+        raise AutomaticRecord::Error::InvalidAssociation, assoc unless reflection.has_one? || reflection.belongs_to?
+        define_method(assoc) do |_force_reload = nil| # force_reload is deprecated by rails
+          return get_or_auto_create_assoc(assoc, default_attrs_or_block)
         end
       end
     end
